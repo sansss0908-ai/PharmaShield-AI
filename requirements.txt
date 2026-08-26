@@ -6,3 +6,4 @@ numpy
 folium
 requests
 matplotlib
+joblib
