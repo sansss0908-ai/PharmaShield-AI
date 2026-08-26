@@ -22,6 +22,7 @@ SAFE_TEMP_MAX = 8.0
 
 def generate_shipment_data(
     failure_start_index: int = None,
+    failure_severity: float = 1.0,
     points_per_leg: int = 6,
     start_time: datetime = None
 ) -> pd.DataFrame:
@@ -32,6 +33,8 @@ def generate_shipment_data(
         failure_start_index: waypoint index after which temperature
             begins rising abnormally (simulating a cooling failure).
             If None, no failure is injected (fully healthy shipment).
+        failure_severity: multiplier controlling how fast temperature
+            rises once failure starts (1.0 = normal, 2.0 = twice as fast).
         points_per_leg: how many sensor readings between each waypoint pair.
         start_time: timestamp for the first reading. Defaults to now.
 
@@ -59,10 +62,8 @@ def generate_shipment_data(
             )
 
             if failure_triggered:
-                # Temperature climbs steadily once failure starts
-                temperature += np.random.uniform(0.3, 0.6)
+                temperature += np.random.uniform(0.3, 0.6) * failure_severity
             else:
-                # Normal small fluctuation within safe range
                 temperature += np.random.uniform(-0.2, 0.2)
                 temperature = np.clip(temperature, SAFE_TEMP_MIN, SAFE_TEMP_MAX)
 
@@ -80,7 +81,6 @@ def generate_shipment_data(
             reading_index += 1
 
     return pd.DataFrame(records)
-
 
 if __name__ == "__main__":
     # Generate a shipment WITH a failure starting at waypoint 2 (mid-journey)
