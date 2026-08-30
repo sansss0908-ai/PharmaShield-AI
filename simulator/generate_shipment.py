@@ -63,11 +63,15 @@ def generate_shipment_data(
 
             if failure_triggered:
                 temperature += np.random.uniform(0.3, 0.6) * failure_severity
+                humidity_spike = np.random.uniform(0.5, 1.5) * failure_severity
             else:
                 temperature += np.random.uniform(-0.2, 0.2)
                 temperature = np.clip(temperature, SAFE_TEMP_MIN, SAFE_TEMP_MAX)
 
-            humidity = np.random.uniform(40, 60)
+            if failure_triggered:
+                humidity = min(95, 55 + humidity_spike * (leg_idx - failure_start_index + 1) * 3)
+            else:
+                humidity = np.random.uniform(40, 60)
             timestamp = start_time + timedelta(minutes=15 * reading_index)
 
             records.append({
