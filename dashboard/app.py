@@ -8,6 +8,7 @@ selection, and automated SAP workflow execution.
 
 import sys
 import os
+import pandas as pd
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -15,6 +16,7 @@ import streamlit as st
 import time
 import folium
 from streamlit_folium import st_folium
+import requests
 
 from simulator.generate_shipment import generate_shipment_data, SAFE_TEMP_MAX, SAFE_TEMP_MIN
 from engine.risk_assessment import assess_shipment
@@ -39,7 +41,8 @@ if "frozen_assessment" not in st.session_state:
     st.session_state.frozen_assessment = None    
 if "frozen_humidity" not in st.session_state:
     st.session_state.frozen_humidity = None    
-
+if "live_history" not in st.session_state:
+    st.session_state.live_history = []
 
 def load_scenario(failure_start_index, failure_severity, scenario_name):
     df = generate_shipment_data(
@@ -64,6 +67,15 @@ RISK_COLORS = {
     "SPOILED": "black",
 }
 
+def fetch_live_reading():
+    try:
+        response = requests.get(LIVE_SERVER_URL, timeout=2)
+        data = response.json()
+        if data.get("temperature") is not None:
+            return data
+    except Exception:
+        pass
+    return None
 
 def build_map(current_lat, current_lon, risk_level, recovery_hub=None):
     m = folium.Map(location=[current_lat, current_lon], zoom_start=9)
@@ -108,6 +120,10 @@ if st.sidebar.button("Severe Cooling Failure"):
     load_scenario(2, 1.8, "Severe Cooling Failure")
 
 st.sidebar.divider()
+st.sidebar.subheader("Hardware Mode")
+live_mode = st.sidebar.checkbox("Use Live Hardware Feed", value=False)
+LIVE_SERVER_URL = "http://127.0.0.1:5001/api/live-reading"
+st.sidebar.divider()
 st.sidebar.subheader("Playback")
 
 col1, col2 = st.sidebar.columns(2)
@@ -120,11 +136,38 @@ st.session_state.autoplay = autoplay_toggle
 # ---------- Main area ----------
 st.title("🧊 PharmaShield AI — Cold-Chain Monitoring")
 
-if st.session_state.shipment_df is None:
-    st.info("👈 Choose a scenario from the sidebar to begin.")
-    st.stop()
+if live_mode:
+    reading = fetch_live_reading()
+    if reading is None:
+        st.warning("Waiting for live sensor data... Make sure the ESP32 and live_data_server.py are both running.")
+        st.stop()
 
-df = st.session_state.shipment_df
+    st.session_state.live_history.append({
+        "timestamp": reading["timestamp"],
+        "temperature": reading["temperature"],
+        "humidity": reading["humidity"],
+        "lat": reading["lat"] if reading["lat"] else 19.0760,   # fallback if GPS has no fix yet
+        "lon": reading["lon"] if reading["lon"] else 72.8777,
+        "waypoint_index": 0,
+    })
+
+    # Keep only the most recent 30 readings so trend features stay meaningful
+    st.session_state.live_history = st.session_state.live_history[-30:]
+
+    if len(st.session_state.live_history) < 4:
+        st.info(f"Collecting live readings... ({len(st.session_state.live_history)}/4 needed to start prediction)")
+        time.sleep(2)
+        st.rerun()
+
+    df = pd.DataFrame(st.session_state.live_history)
+    st.session_state.current_index = len(df) - 1
+    st.session_state.scenario = "🔴 LIVE Hardware Feed"
+
+else:
+    if st.session_state.shipment_df is None:
+        st.info("👈 Choose a scenario from the sidebar to begin.")
+        st.stop()
+    df = st.session_state.shipment_df
 
 if reset_clicked:
     st.session_state.current_index = 5
@@ -215,3 +258,7 @@ if st.session_state.autoplay and st.session_state.current_index < len(df) - 1:
     time.sleep(1.5)
     st.session_state.current_index += 1
     st.rerun()
+
+if live_mode:
+    time.sleep(3)
+    st.rerun()    
