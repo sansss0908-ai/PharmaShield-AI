@@ -1,0 +1,42 @@
+{
+  "personnel": {
+    "driver": {
+      "name": "VAIBHAV",
+      "role": "Cold-Chain Logistics Driver",
+      "phone": "+91 75004 94102",
+      "vehicle_id": "MH-12-CC-8842"
+    },
+    "delivery_manager": {
+      "name": "VAISHNAVI",
+      "role": "Pharma Cold-Chain Delivery Manager",
+      "phone": "+91 8057882151",
+      "email": "vaishnavi.ops@pharmashield.ai"
+    }
+  },
+  "hubs": [
+    {
+      "id": "HUB-01",
+      "name": "Panvel Cold Hub",
+      "contact_person": "Rajesh Sharma",
+      "phone": "+91 98200 11223"
+    },
+    {
+      "id": "HUB-02",
+      "name": "Lonavala Cold Hub",
+      "contact_person": "Anil Deshmukh",
+      "phone": "+91 98200 44556"
+    },
+    {
+      "id": "HUB-03",
+      "name": "Pune Central Cold Hub",
+      "contact_person": "Sunita Patil",
+      "phone": "+91 98200 77889"
+    },
+    {
+      "id": "HUB-04",
+      "name": "Khopoli Cold Hub",
+      "contact_person": "Sanjay Pawar",
+      "phone": "+91 98200 99000"
+    }
+  ]
+}

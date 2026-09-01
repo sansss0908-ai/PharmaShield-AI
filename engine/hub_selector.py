@@ -67,9 +67,7 @@ def select_recovery_hub(current_lat: float, current_lon: float) -> dict:
 
 
 if __name__ == "__main__":
-    # Simulate a shipment currently near waypoint 2 of the route (18.8, 73.35)
     result = select_recovery_hub(current_lat=18.8, current_lon=73.35)
-
     print("Recovery decision:")
     print(f"  Status: {result['status']}")
     if result["hub"]:

@@ -7,13 +7,14 @@ a single function — the main entry point the dashboard (and any
 future consumer) calls to get a complete risk picture for a shipment.
 """
 
+import os
 import pandas as pd
 import joblib
 
 from engine.tts_calculator import compute_tts
 from engine.hub_selector import select_recovery_hub
 
-MODEL_PATH = "engine/breach_predictor.joblib"
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "breach_predictor.joblib")
 FEATURE_COLUMNS = ["temp_current", "temp_delta_1", "temp_delta_3_avg", "humidity"]
 
 _model = None  # lazy-loaded so importing this module doesn't require the file to exist yet
@@ -22,6 +23,9 @@ _model = None  # lazy-loaded so importing this module doesn't require the file t
 def _get_model():
     global _model
     if _model is None:
+        if not os.path.exists(MODEL_PATH):
+            from engine.train_model import train_and_save_model
+            train_and_save_model()
         _model = joblib.load(MODEL_PATH)
     return _model
 

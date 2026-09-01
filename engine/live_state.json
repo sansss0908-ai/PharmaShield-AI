@@ -1,0 +1,28 @@
+{
+  "scenario_name": "\ud83d\udd34 LIVE Hardware Feed",
+  "reading_index": 30,
+  "total_readings": 30,
+  "lat": 28.96214917,
+  "lon": 77.72379317,
+  "temperature": 28.5625,
+  "humidity": 0.0,
+  "timestamp": "2026-09-01 12:59:47.733611",
+  "tts_remaining_hours": 1.98,
+  "percent_remaining": 2.75,
+  "rule_based_risk_level": "CRITICAL",
+  "ml_breach_probability": 0.2,
+  "ml_breach_predicted": false,
+  "needs_recovery_action": true,
+  "rerouted": false,
+  "recovery_hub": {
+    "id": "HUB-01",
+    "name": "Panvel Cold Hub",
+    "lat": 18.9894,
+    "lon": 73.1175,
+    "capacity": 50,
+    "current_load": 42,
+    "operational": true
+  },
+  "arrived_at_hub": false,
+  "last_updated": "2026-09-01T12:59:49.653379"
+}

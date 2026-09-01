@@ -1,56 +1,46 @@
 """
-Trains a classifier to predict whether a shipment will breach the
-safe temperature threshold in the near future, based on current
-temperature and recent trend features.
-
-This is the core predictive "AI" layer referenced in the pitch:
-it forecasts risk before the breach actually happens, using only
-information available in real time (no future data).
+Trains a simple Random Forest classifier on synthetic shipment data
+and saves it to engine/breach_predictor.joblib.
 """
 
+import os
+import sys
 import pandas as pd
-from sklearn.model_selection import train_test_split
+import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, confusion_matrix
 import joblib
 
-FEATURE_COLUMNS = ["temp_current", "temp_delta_1", "temp_delta_3_avg", "humidity"]
-LABEL_COLUMN = "will_breach_soon"
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from simulator.generate_shipment import generate_shipment_data
 
-
-def train_and_evaluate():
-    df = pd.read_csv("engine/training_data.csv")
-
-    X = df[FEATURE_COLUMNS]
-    y = df[LABEL_COLUMN]
-
-    # Split by shipment_id would be more rigorous, but a random split
-    # is a reasonable and fast approach for a prototype.
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
-    )
-
-    model = RandomForestClassifier(n_estimators=100, max_depth=6, random_state=42)
-    model.fit(X_train, y_train)
-
-    y_pred = model.predict(X_test)
-
-    print("Classification Report:")
-    print(classification_report(y_test, y_pred, target_names=["No Breach Soon", "Breach Soon"]))
-
-    print("Confusion Matrix:")
-    print(confusion_matrix(y_test, y_pred))
-
-    print("\nFeature Importances:")
-    for feature, importance in zip(FEATURE_COLUMNS, model.feature_importances_):
-        print(f"  {feature}: {importance:.3f}")
-
-    output_path = "engine/breach_predictor.joblib"
-    joblib.dump(model, output_path)
-    print(f"\nModel saved to {output_path}")
-
-    return model
-
+def train_and_save_model():
+    data_frames = []
+    # Generate datasets with various failure points & severities
+    for failure_start in [None, 1, 2, 3]:
+        for severity in [0.8, 1.0, 1.5, 2.0]:
+            df = generate_shipment_data(failure_start_index=failure_start, failure_severity=severity)
+            data_frames.append(df)
+            
+    full_df = pd.concat(data_frames, ignore_index=True)
+    
+    full_df["temp_delta_1"] = full_df["temperature"].diff().fillna(0)
+    full_df["temp_delta_3_avg"] = full_df["temperature"].diff().rolling(3).mean().fillna(0)
+    full_df["temp_current"] = full_df["temperature"]
+    
+    # Target: temperature > 8.0 or temp rising fast (delta_1 > 0.3)
+    full_df["breach_target"] = ((full_df["temperature"] > 8.0) | (full_df["temp_delta_1"] > 0.3)).astype(int)
+    
+    features = ["temp_current", "temp_delta_1", "temp_delta_3_avg", "humidity"]
+    X = full_df[features]
+    y = full_df["breach_target"]
+    
+    model = RandomForestClassifier(n_estimators=50, random_state=42)
+    model.fit(X, y)
+    
+    os.makedirs("engine", exist_ok=True)
+    model_path = os.path.join(os.path.dirname(__file__), "breach_predictor.joblib")
+    joblib.dump(model, model_path)
+    print(f"Successfully trained and saved model to {model_path}")
 
 if __name__ == "__main__":
-    train_and_evaluate()
+    train_and_save_model()

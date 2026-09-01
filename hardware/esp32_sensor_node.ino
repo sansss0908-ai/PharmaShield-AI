@@ -5,6 +5,7 @@
 #include <DallasTemperature.h>
 #include <TinyGPSPlus.h>
 #include <HardwareSerial.h>
+#include <DHT.h>
 
 // ---------- WiFi credentials ----------
 const char* WIFI_SSID = "krishana4G";
@@ -22,6 +23,11 @@ DallasTemperature tempSensor(&oneWire);
 TinyGPSPlus gps;
 HardwareSerial gpsSerial(2);
 
+// ---------- DHT22 setup ----------
+#define DHT_PIN 15
+#define DHT_TYPE DHT22
+DHT dht(DHT_PIN, DHT_TYPE);
+
 // ---------- Timing ----------
 unsigned long lastSendTime = 0;
 const unsigned long SEND_INTERVAL_MS = 5000;  // 5 seconds
@@ -36,6 +42,7 @@ void setup() {
 
   tempSensor.begin();
   gpsSerial.begin(9600, SERIAL_8N1, 16, 17);
+  dht.begin();
 
   Serial.print("Connecting to WiFi");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -66,8 +73,11 @@ void loop() {
     tempSensor.requestTemperatures();
     float temperature = tempSensor.getTempCByIndex(0);
 
-    // NOTE: no DHT22 yet, so humidity is a placeholder for now
-    float humidity = 50.0;
+    float humidity = dht.readHumidity();
+    if (isnan(humidity)) {
+      Serial.println("DHT22 read error - using last known value.");
+      humidity = 50.0;  // fallback if a read fails
+      }
 
     if (temperature == DEVICE_DISCONNECTED_C) {
       Serial.println("Temperature sensor error - skipping this reading.");

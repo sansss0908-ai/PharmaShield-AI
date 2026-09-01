@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PharmaShield Mobile — Hospital & SAP STO</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0E1117">
+    <style>
+        :root {
+            --bg-color: #0E1117;
+            --card-bg: #1A1D23;
+            --card-border: #2A2E37;
+            --text-primary: #F9FAFB;
+            --text-secondary: #9CA3AF;
+            --accent-color: #2DD4BF;
+            --safe-color: #22C55E;
+            --warning-color: #F59E0B;
+            --critical-color: #EF4444;
+            --spoiled-color: #64748B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            padding: 12px;
+            padding-bottom: 80px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #111418;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            margin-bottom: 12px;
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-sub {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation Tabs */
+        .tab-nav {
+            display: flex;
+            background: #111418;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 12px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--card-bg);
+            color: var(--accent-color);
+            border: 1px solid var(--card-border);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Alert Banners */
+        .alert-banner {
+            display: none;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .alert-warning {
+            display: block;
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+            border: 2px solid var(--warning-color);
+            animation: pulse-warning 1.8s infinite;
+        }
+
+        .alert-critical {
+            display: block;
+            background: rgba(239, 68, 68, 0.25);
+            color: var(--critical-color);
+            border: 2px solid var(--critical-color);
+            animation: pulse-critical 1.0s infinite;
+        }
+
+        @keyframes pulse-warning {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        @keyframes pulse-critical {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+            70% { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .badge-SAFE { background: rgba(34, 197, 94, 0.2); color: var(--safe-color); border: 1px solid var(--safe-color); }
+        .badge-WARNING { background: rgba(245, 158, 11, 0.2); color: var(--warning-color); border: 1px solid var(--warning-color); }
+        .badge-CRITICAL { background: rgba(239, 68, 68, 0.2); color: var(--critical-color); border: 1px solid var(--critical-color); }
+        .badge-SPOILED { background: rgba(100, 116, 139, 0.2); color: var(--spoiled-color); border: 1px solid var(--spoiled-color); }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .metric-box {
+            background: #111418;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #2A2E37;
+        }
+
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .metric-val {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        /* Contacts Section */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #111418;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #2A2E37;
+            margin-bottom: 8px;
+        }
+
+        .contact-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .contact-role {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .call-btn {
+            background: var(--accent-color);
+            color: #0E1117;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* Hub Alert Card */
+        .hub-alert-box {
+            background: rgba(45, 212, 191, 0.08);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 8px;
+        }
+
+        /* SAP STO Item Card */
+        .sto-card {
+            background: #111418;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .sto-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .sto-number {
+            font-weight: 800;
+            color: var(--accent-color);
+            font-size: 0.95rem;
+        }
+
+        .sto-status {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--safe-color);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .sto-detail {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Bottom Fixed Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 480px;
+            margin: 0 auto;
+            background: #111418;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 600;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <div>
+            <div class="header-title">🧊 PharmaShield Mobile</div>
+            <div class="header-sub">Shipment #SHP-9942 • Hospital & SAP STO Portal</div>
+        </div>
+        <div id="live-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 8px #22C55E;"></div>
+    </div>
+
+    <!-- TAB 1: HOSPITAL MONITOR -->
+    <div id="tab-hospital" class="tab-content active">
+        <!-- Alert Banners -->
+        <div id="banner-warning" class="alert-banner alert-warning">
+            ⚠️ EARLY WARNING: Cold-chain excursion detected! Monitor shipment closely.
+        </div>
+        <div id="banner-critical" class="alert-banner alert-critical">
+            🚨 CRITICAL BREACH: Temperature outside safe zone! Immediate action required.
+        </div>
+
+        <!-- Main Status Card -->
+        <div class="card">
+            <div class="card-title">Live Shipment Status</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div id="risk-badge" class="status-badge badge-SAFE">SAFE</div>
+                <div id="tts-val" style="font-size: 1.5rem; font-weight: 800; color: #2DD4BF;">72.0 hrs</div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-label">Temperature</div>
+                    <div id="temp-val" class="metric-val">5.0 °C</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Humidity</div>
+                    <div id="humidity-val" class="metric-val">45.0 %</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Shelf-life Left</div>
+                    <div id="pct-val" class="metric-val">100 %</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">ML Risk Score</div>
+                    <div id="ml-val" class="metric-val">0.0 %</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cold-Storage Hub Notification & STO Card -->
+        <div id="hub-notification-card" class="card" style="display: none;">
+            <div class="card-title" style="color: #F59E0B;">🔀 Cold-Hub Rerouting & SAP STO Active</div>
+            <div class="hub-alert-box">
+                <div id="hub-name" style="font-size: 1.1rem; font-weight: 700; color: #F9FAFB;">Panvel Cold Hub</div>
+                <div id="hub-details" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;">
+                    Incoming compromised shipment. ETA ~15 mins (8.4 km).
+                </div>
+                <div id="sto-banner" style="font-size: 0.78rem; font-weight: 700; color: var(--accent-color); margin-top: 8px;">
+                    📦 SAP STO Dispatched: #STO-1000 (CONFIRMED)
+                </div>
+            </div>
+        </div>
+
+        <!-- Personnel Contacts Card -->
+        <div class="card">
+            <div class="card-title">Key Personnel Contacts</div>
+            
+            <div class="contact-item">
+                <div>
+                    <div class="contact-name" id="driver-name">VAIBHAV</div>
+                    <div class="contact-role">Cold-Chain Driver</div>
+                </div>
+                <a id="driver-phone" href="tel:+917500494102" class="call-btn">📞 Call</a>
+            </div>
+
+            <div class="contact-item">
+                <div>
+                    <div class="contact-name" id="manager-name">VAISHNAVI</div>
+                    <div class="contact-role">Delivery Manager</div>
+                </div>
+                <a id="manager-phone" href="tel:+918057882151" class="call-btn">📞 Call</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: SAP STO MANAGEMENT -->
+    <div id="tab-sto" class="tab-content">
+        <div class="card">
+            <div class="card-title">SAP S/4HANA Stock Transport Orders (STO)</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">
+                Automated ERP Order Execution & Recovery Hub Dispatch Logs.
+            </div>
+
+            <button onclick="triggerManualSTO()" style="width: 100%; padding: 12px; background: var(--accent-color); color: #0E1117; border: none; border-radius: 10px; font-weight: 800; font-size: 0.9rem; margin-bottom: 14px; cursor: pointer;">
+                ⚡ Dispatch Manual Emergency STO
+            </button>
+
+            <div id="sto-list-container">
+                <div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding: 20px;">
+                    Loading SAP STO Records...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('hospital', this)">
+            <span class="nav-icon">🏥</span>
+            <span>Hospital</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('sto', this)">
+            <span class="nav-icon">📦</span>
+            <span>SAP STO</span>
+        </button>
+    </div>
+
+    <script>
+        function switchTab(tabName, el) {
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(ni => ni.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            el.classList.add('active');
+
+            if (tabName === 'sto') {
+                fetchSTOOrders();
+            }
+        }
+
+        async function fetchStatus() {
+            try {
+                const response = await fetch('/api/hospital/shipment-status');
+                const data = await response.json();
+
+                document.getElementById('temp-val').innerText = data.temperature + ' °C';
+                document.getElementById('humidity-val').innerText = data.humidity + ' %';
+                document.getElementById('tts-val').innerText = data.tts_remaining_hours + ' hrs';
+                document.getElementById('pct-val').innerText = data.percent_remaining + ' %';
+                document.getElementById('ml-val').innerText = (data.ml_breach_probability * 100).toFixed(1) + ' %';
+
+                const riskBadge = document.getElementById('risk-badge');
+                const riskLvl = data.rule_based_risk_level || 'SAFE';
+                riskBadge.innerText = riskLvl;
+                riskBadge.className = 'status-badge badge-' + riskLvl;
+
+                const bannerWarn = document.getElementById('banner-warning');
+                const bannerCrit = document.getElementById('banner-critical');
+
+                if (riskLvl === 'WARNING') {
+                    bannerWarn.style.display = 'block';
+                    bannerCrit.style.display = 'none';
+                } else if (riskLvl === 'CRITICAL' || riskLvl === 'SPOILED') {
+                    bannerWarn.style.display = 'none';
+                    bannerCrit.style.display = 'block';
+                } else {
+                    bannerWarn.style.display = 'none';
+                    bannerCrit.style.display = 'none';
+                }
+
+                const hubCard = document.getElementById('hub-notification-card');
+                if (data.rerouted && data.recovery_hub) {
+                    hubCard.style.display = 'block';
+                    document.getElementById('hub-name').innerText = '🔀 Rerouted to: ' + data.recovery_hub.name;
+                    document.getElementById('hub-details').innerText = data.arrived_at_hub ? 
+                        '✅ ARRIVED at cold storage hub.' : 
+                        'Shipment in transit to recovery hub. Current load: ' + data.recovery_hub.current_load + '/' + data.recovery_hub.capacity;
+                } else {
+                    hubCard.style.display = 'none';
+                }
+
+                if (data.contacts && data.contacts.personnel) {
+                    const driver = data.contacts.personnel.driver;
+                    const manager = data.contacts.personnel.delivery_manager;
+
+                    if (driver) {
+                        document.getElementById('driver-name').innerText = driver.name;
+                        document.getElementById('driver-phone').href = 'tel:' + driver.phone;
+                    }
+                    if (manager) {
+                        document.getElementById('manager-name').innerText = manager.name;
+                        document.getElementById('manager-phone').href = 'tel:' + manager.phone;
+                    }
+                }
+            } catch (err) {
+                console.log('Error polling status:', err);
+            }
+        }
+
+        async function fetchSTOOrders() {
+            try {
+                const res = await fetch('/api/sap/orders');
+                const data = await res.json();
+                const container = document.getElementById('sto-list-container');
+
+                if (!data.orders || data.orders.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding: 20px;">No SAP STO Orders Dispatched Yet.<br>Trigger a cooling failure scenario to auto-generate STOs.</div>';
+                    return;
+                }
+
+                let html = '';
+                data.orders.reverse().forEach(sto => {
+                    html += `
+                        <div class="sto-card">
+                            <div class="sto-header">
+                                <div class="sto-number">📦 ${sto.order_number}</div>
+                                <div class="sto-status">${sto.status}</div>
+                            </div>
+                            <div class="sto-detail">
+                                <strong>Shipment:</strong> ${sto.shipment_id}<br>
+                                <strong>Origin:</strong> ${sto.origin_hub}<br>
+                                <strong>Destination:</strong> ${sto.destination_hub}<br>
+                                <strong>Reason:</strong> ${sto.reason} (TTS: ${sto.tts_remaining_hours} hrs)<br>
+                                <strong>Timestamp:</strong> ${sto.created_at}
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } catch (err) {
+                document.getElementById('sto-list-container').innerHTML = '<div style="color: var(--critical-color); font-size: 0.8rem;">Error loading SAP STO orders</div>';
+            }
+        }
+
+        async function triggerManualSTO() {
+            try {
+                const res = await fetch('/api/sap/stock-transport-order', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        shipment_id: 'SHP-9942',
+                        origin_hub: 'Origin Transit MH-12',
+                        destination_hub: 'Panvel Cold Hub',
+                        reason: 'EMERGENCY_MANUAL_DISPATCH',
+                        tts_remaining_hours: 1.5,
+                        risk_level: 'CRITICAL',
+                        distance_km: 8.4
+                    })
+                });
+                const data = await res.json();
+                alert('✅ SAP STO Created: ' + data.order.order_number);
+                fetchSTOOrders();
+            } catch (err) {
+                alert('Error dispatching SAP STO order');
+            }
+        }
+
+        setInterval(fetchStatus, 1500);
+        fetchStatus();
+    </script>
+</body>
+</html>

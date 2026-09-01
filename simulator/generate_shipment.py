@@ -87,7 +87,6 @@ def generate_shipment_data(
     return pd.DataFrame(records)
 
 if __name__ == "__main__":
-    # Generate a shipment WITH a failure starting at waypoint 2 (mid-journey)
     df = generate_shipment_data(failure_start_index=2)
     output_path = "simulator/sample_shipment.csv"
     df.to_csv(output_path, index=False)
