@@ -1,0 +1,698 @@
+[
+  {
+    "timestamp": "2026-09-02T08:17:06.597123",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:06.622706",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:09.807686",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:09.832016",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:09.855097",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:09.872068",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:13.032502",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:13.054288",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:13.072615",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:13.094281",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:16.254581",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:16.282697",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:16.307789",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:16.327792",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:19.482116",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:19.500874",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:19.521660",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:19.539470",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:22.699090",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:22.718051",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:22.742801",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:22.764703",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:25.931804",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:25.963852",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:25.984169",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:26.005091",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:29.203098",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:29.221820",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:29.242257",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:29.263101",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:32.426598",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:32.459117",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:32.482579",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:32.501141",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:35.665730",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:35.696208",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:35.718609",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:35.740682",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:38.912038",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:38.936082",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:38.958530",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:38.972964",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:42.126979",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:42.147768",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:42.172299",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:42.191659",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:45.339705",
+    "agent": "SensingAgent",
+    "action": "READ_TELEMETRY",
+    "detail": {
+      "temperature": 29.9375,
+      "humidity": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:45.371968",
+    "agent": "PredictionAgent",
+    "action": "RISK_ASSESSMENT",
+    "detail": {
+      "risk_level": "CRITICAL",
+      "ml_breach_probability": 0.2,
+      "tts_remaining_hours": 2.0
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:45.389301",
+    "agent": "DecisionAgent",
+    "action": "RECOVERY_RECOMMENDED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  },
+  {
+    "timestamp": "2026-09-02T08:17:45.403153",
+    "agent": "ComplianceAgent",
+    "action": "APPROVAL_REQUESTED",
+    "detail": {
+      "status": "HUB_SELECTED",
+      "hub": {
+        "id": "HUB-01",
+        "name": "Panvel Cold Hub",
+        "lat": 18.9894,
+        "lon": 73.1175,
+        "capacity": 50,
+        "current_load": 42,
+        "operational": true
+      },
+      "distance_km": 26.98
+    }
+  }
+]

@@ -22,6 +22,7 @@ from simulator.generate_shipment import generate_shipment_data, SAFE_TEMP_MAX, S
 from engine.risk_assessment import assess_shipment
 from engine.hub_selector import COLD_STORAGE_HUBS
 from engine.state_bridge import broadcast_shipment_state
+from engine.agents import Orchestrator, read_audit_log
 
 st.set_page_config(
     page_title="PharmaShield AI — Enterprise Dashboard",
@@ -212,6 +213,8 @@ if "current_index" not in st.session_state:
     st.session_state.current_index = 5
 if "autoplay" not in st.session_state:
     st.session_state.autoplay = False
+if "_reset_live_mode" not in st.session_state:
+    st.session_state._reset_live_mode = False    
 if "scenario" not in st.session_state:
     st.session_state.scenario = None
 if "reroute_triggered_at_index" not in st.session_state:
@@ -224,6 +227,15 @@ if "frozen_humidity" not in st.session_state:
     st.session_state.frozen_humidity = None    
 if "live_history" not in st.session_state:
     st.session_state.live_history = []
+if "orchestrator" not in st.session_state:
+    st.session_state.orchestrator = Orchestrator()
+if "pending_approval" not in st.session_state:
+    st.session_state.pending_approval = None
+if "approved_reroutes" not in st.session_state:
+    st.session_state.approved_reroutes = {}    
+if st.session_state._reset_live_mode:
+    st.session_state["use_live_hardware_feed"] = False
+    st.session_state._reset_live_mode = False
 
 def load_scenario(failure_start_index, failure_severity, scenario_name):
     df = generate_shipment_data(
@@ -239,7 +251,7 @@ def load_scenario(failure_start_index, failure_severity, scenario_name):
     st.session_state.frozen_recovery = None
     st.session_state.frozen_assessment = None
     st.session_state.frozen_humidity = None
-    st.session_state["use_live_hardware_feed"] = False
+    st.session_state._reset_live_mode = True
 
 
 RISK_COLORS = {
@@ -398,9 +410,15 @@ if next_clicked and st.session_state.current_index < len(df) - 1:
     st.session_state.current_index += 1
 
 visible_data = df.iloc[: st.session_state.current_index + 1]
-assessment = assess_shipment(visible_data)
+pipeline_result = st.session_state.orchestrator.run(visible_data)
+assessment = pipeline_result["assessment"]
 
-if st.session_state.reroute_triggered_at_index is None and assessment["ml_breach_predicted"]:
+if (pipeline_result["approval_state"] is not None
+        and st.session_state.pending_approval is None
+        and st.session_state.reroute_triggered_at_index is None):
+    st.session_state.pending_approval = pipeline_result["approval_state"]["decision"]
+
+
     st.session_state.reroute_triggered_at_index = st.session_state.current_index
     st.session_state.frozen_recovery = assessment["recovery_recommendation"]
 
@@ -503,7 +521,20 @@ with c_hero2:
         <div class="hero-card-sub">{assessment['percent_remaining']}% shelf-life budget</div>
     </div>
     """, unsafe_allow_html=True)
-
+if st.session_state.pending_approval is not None:
+    hub = st.session_state.pending_approval["hub"]
+    st.warning(f"🤖 Compliance Agent requests approval: reroute to **{hub['name']}** ({st.session_state.pending_approval['distance_km']} km)?")
+    col1, col2 = st.columns(2)
+    if col1.button("✅ Approve Reroute", key="approve_btn"):
+        st.session_state.orchestrator.compliance.record_approval("Operator", st.session_state.pending_approval)
+        st.session_state.reroute_triggered_at_index = st.session_state.current_index
+        st.session_state.frozen_recovery = {"hub": hub, "distance_km": st.session_state.pending_approval["distance_km"]}
+        st.session_state.pending_approval = None
+        st.rerun()
+    if col2.button("❌ Reject", key="reject_btn"):
+        st.session_state.orchestrator.compliance.record_rejection("Operator", st.session_state.pending_approval)
+        st.session_state.pending_approval = None
+        st.rerun()
 with c_hero3:
     if rerouted:
         hub = st.session_state.frozen_recovery["hub"]
@@ -555,6 +586,10 @@ st.subheader("📍 Live Shipment Location & Cold-Storage Network")
 map_obj = build_map(lat_val, lon_val, assessment["rule_based_risk_level"], recovery_hub)
 st_folium(map_obj, width=1300, height=480)
 
+with st.expander("🤖 Agent Activity Log (Audit Trail)"):
+    log_entries = read_audit_log()
+    for entry in reversed(log_entries[-15:]):
+        st.text(f"[{entry['timestamp'][:19]}] {entry['agent']} → {entry['action']}")
 
 # ---------- Auto-play loop ----------
 if st.session_state.autoplay and st.session_state.current_index < len(df) - 1:
