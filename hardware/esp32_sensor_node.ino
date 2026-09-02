@@ -24,7 +24,7 @@ TinyGPSPlus gps;
 HardwareSerial gpsSerial(2);
 
 // ---------- DHT22 setup ----------
-#define DHT_PIN 15
+#define DHT_PIN 26
 #define DHT_TYPE DHT22
 DHT dht(DHT_PIN, DHT_TYPE);
 
